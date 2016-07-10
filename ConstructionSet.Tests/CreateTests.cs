@@ -19,7 +19,7 @@ namespace ConstructionSet.Tests
         {
             var result = ConstructionSet
                 .Create<ClassWithCtorThatHasNonZeroArguments>
-                .UsingPrivateConstructor(new object[] { 1, "a" });
+                .UsingPrivateConstructor(1, "a");
 
             Assert.NotNull(result);
         }

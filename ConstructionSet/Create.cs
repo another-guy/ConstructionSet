@@ -5,7 +5,7 @@ namespace ConstructionSet
 {
     public static class Create<T>
     {
-        public static T UsingPrivateConstructor(object[] parameters = null)
+        public static T UsingPrivateConstructor(params object[] parameters)
         {   
             var defaultConstructor =
                 typeof(T)
