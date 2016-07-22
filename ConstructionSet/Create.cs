@@ -60,22 +60,10 @@ namespace ConstructionSet
 
             var maxScore = nonZeroScores.Max();
             var constructorInfos = scores[maxScore];
-            switch (constructorInfos.Count)
-            {
-                case 1:
-                    break;
+            if (constructorInfos.Count > 1)
+                throw new InvalidOperationException("Matching mechanism could not choose a best constructor to invoke.");
 
-                // TODO Unit test exceptions
-                default:
-                    throw new InvalidOperationException(
-                        "Matching mechanism could not choose a best constructor to invoke. " +
-                        constructorInfos.Count + " constructos have conflicting score " + maxScore + ".");
-            }
-
-            var candidateCtor = constructorInfos.Single();
-            if (candidateCtor.GetParameters().Length != parameters.Length)
-                throw new InvalidOperationException(""); // TODO What about varargs/params? TODO Unit test too
-            return candidateCtor;
+            return constructorInfos.Single();
         }
     }
 }

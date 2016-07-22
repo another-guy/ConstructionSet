@@ -52,16 +52,29 @@ namespace ConstructionSet.Tests
         }
 
         [Fact]
-        public void TestThrowsArgumentExceptionWhenNoMatchingFound()
+        public void TestThrowsOperationExceptionWhenNoMatchingFound()
+        {
+            // Arrange
+            // Act
+            var caught = Assert.Throws<InvalidOperationException>(
+                () => Create<ClassWithPrivateCtors>
+                    .UsingPrivateConstructor("s", "s", "s"));
+            
+            // Assert
+            Assert.Equal("Didn't find a constructor mathing passed parameters.", caught.Message);
+        }
+
+        [Fact]
+        public void TestThrowsOperationExceptionWhenMoreThanOneEquallyFitCtorFound()
         {
             // Arrange
             // Act
             var caught = Assert.Throws<InvalidOperationException>(
                 () => Create<ClassWithPrivateCtors>
                     .UsingPrivateConstructor(1, 1, 1));
-            
+
             // Assert
-            Assert.Equal("Didn't find a constructor mathing passed parameters.", caught.Message);
+            Assert.Equal("Matching mechanism could not choose a best constructor to invoke.", caught.Message);
         }
     }
 }

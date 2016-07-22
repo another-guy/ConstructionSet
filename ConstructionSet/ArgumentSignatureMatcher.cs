@@ -10,7 +10,7 @@ namespace ConstructionSet
             if (parameterInfos.Length == 0 && parameters.Length == 0)
                 return 1000;
 
-            int score = 0;
+            var score = 0;
             if (parameterInfos.Length == parameters.Length)
                 for (var i = 0; i < parameters.Length; i++)
                 {
@@ -28,6 +28,9 @@ namespace ConstructionSet
                     else if (parameterInfoType.IsAssignableFrom(parameterType) &&
                              parameterInfoType == typeof(object))
                         score += 1;
+                    // Parameter is not at all assignable
+                    else
+                        return 0;
                 }
 
             return score;
