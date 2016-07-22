@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
 using Xunit;
 
 namespace ConstructionSet.Tests
@@ -54,46 +51,17 @@ namespace ConstructionSet.Tests
             Assert.Null(result.S);
         }
 
-        [Theory]
-        [MemberData(nameof(TestScoreData))]
-        public void TestScoresCorrect(Type[] types, object[] parameters, int expectedScore)
+        [Fact]
+        public void TestThrowsArgumentExceptionWhenNoMatchingFound()
         {
             // Arrange
-            var ctorInfo = typeof(ClassWithPrivateCtors)
-                .GetTypeInfo()
-                .GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)
-                .Single(c =>
-                {
-                    var parameterInfos = c.GetParameters();
-                    return parameterInfos
-                        .Select(p => p.ParameterType)
-                        .SequenceEqual(types);
-                });
-
             // Act
-            var score = Create<ClassWithPrivateCtors>
-                .CalculateMatchScore(ctorInfo, parameters);
-
+            var caught = Assert.Throws<InvalidOperationException>(
+                () => Create<ClassWithPrivateCtors>
+                    .UsingPrivateConstructor(1, 1, 1));
+            
             // Assert
-            Assert.Equal((uint)expectedScore, score);
+            Assert.Equal("Didn't find a constructor mathing passed parameters.", caught.Message);
         }
-
-        public static IEnumerable<object[]> TestScoreData = new List<object[]>
-        {
-            // Default ctor always has 0 score
-            new object[] { new Type[] { }, new object[] { }, 0 },
-
-            // Parameter types exactly match types in signature
-            new object[] { new [] { typeof(string) }, new object[] { "s" }, 1000 },
-            new object[] { new [] { typeof(object) }, new object[] { new object() }, 1000 },
-            new object[] { new [] { typeof(Parent) }, new object[] { new Parent() }, 1000 },
-
-            // Parameter types are subtypes of the ones in signature
-            new object[] { new [] { typeof(Parent) }, new object[] { new Child() }, 10 },
-
-            // Any type is assignable to object
-            new object[] { new [] { typeof(object) }, new object[] { "s" }, 1 },
-            new object[] { new [] { typeof(object) }, new object[] { 1 }, 1 }
-        };
     }
 }

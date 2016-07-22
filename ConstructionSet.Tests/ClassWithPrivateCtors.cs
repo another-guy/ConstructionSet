@@ -22,6 +22,20 @@
         private ClassWithPrivateCtors(Parent p)
         {
         }
+
+        private ClassWithPrivateCtors(int i, string s)
+        {
+            S = s;
+        }
+
+        private ClassWithPrivateCtors(int i, object o)
+        {
+            O = o;
+        }
+
+        private ClassWithPrivateCtors(int i, Parent p)
+        {
+        }
     }
 
     public class Parent { }
