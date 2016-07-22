@@ -57,10 +57,13 @@ namespace ConstructionSet
                     var parameterInfoType = parameterInfos[i].ParameterType;
                     var parameterType = parameters[i].GetType();
 
+                    // Types exactly match each other
                     if (parameterInfoType == parameterType)
                         score += 1000;
+                    // Types are in "Is A" relationship
                     else if (parameterType.IsInstanceOfType(parameterInfoType))
                         score += 10;
+                    // Ctor parameter is object type and therefore can be used with any argument
                     else if (parameterInfoType == typeof(object))
                         score += 1;
                 }
