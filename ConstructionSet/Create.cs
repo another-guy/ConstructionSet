@@ -38,16 +38,46 @@ namespace ConstructionSet
             IEnumerable<ConstructorInfo> constructors,
             object[] parameters)
         {
-            var scores = constructors
-                .ToDictionary(constructor => CalculateMatchScore(constructor, parameters));
+            var scores = new Dictionary<uint, List<ConstructorInfo>>();
 
-            var candidateCtor = scores[scores.Keys.Max()];
+            foreach (var constructor in constructors)
+            {
+                var score = CalculateMatchScore(constructor, parameters);
+
+                List<ConstructorInfo> listForThisScore;
+                if (scores.TryGetValue(score, out listForThisScore) == false)
+                {
+                    listForThisScore = new List<ConstructorInfo>();
+                    scores.Add(score, listForThisScore);
+                }
+
+                listForThisScore.Add(constructor);
+            }
+
+            var maxScore = scores.Keys.Max();
+            var constructorInfos = scores[maxScore];
+            switch (constructorInfos.Count)
+            {
+                // TODO Unit test exceptions
+                case 0:
+                    throw new InvalidOperationException(
+                        "Didn't find a constructor mathing passed parameters.");
+                case 1:
+                    break;
+                default:
+                    throw new InvalidOperationException(
+                        "Matching mechanism could not choose a best constructor to invoke. " +
+                        constructorInfos.Count + " constructos have conflicting score " + maxScore + ".");
+            }
+
+            var candidateCtor = constructorInfos.Single();
             if (candidateCtor.GetParameters().Length != parameters.Length)
                 throw new InvalidOperationException(""); // TODO What about varargs/params? TODO Unit test too
             return candidateCtor;
         }
 
-        private static uint CalculateMatchScore(MethodBase method, object[] parameters)
+        // TODO Move to separate class
+        public static uint CalculateMatchScore(MethodBase method, object[] parameters)
         {
             uint score = 0;
             var parameterInfos = method.GetParameters();
@@ -61,10 +91,12 @@ namespace ConstructionSet
                     if (parameterInfoType == parameterType)
                         score += 1000;
                     // Types are in "Is A" relationship
-                    else if (parameterType.IsInstanceOfType(parameterInfoType))
+                    else if (parameterInfoType.IsAssignableFrom(parameterType) &&
+                        parameterInfoType != typeof(object))
                         score += 10;
                     // Ctor parameter is object type and therefore can be used with any argument
-                    else if (parameterInfoType == typeof(object))
+                    else if (parameterInfoType.IsAssignableFrom(parameterType) &&
+                        parameterInfoType == typeof(object))
                         score += 1;
                 }
 

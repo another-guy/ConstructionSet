@@ -1,11 +1,15 @@
-﻿using Xunit;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Linq;
+using Xunit;
 
 namespace ConstructionSet.Tests
 {
     public class CreateTests
     {
         [Fact]
-        public void TestClassWithCtorThatHasZeroArguments()
+        public void TestCtorWithNoArgumentsIsAccessible()
         {
             // Arrange
             // Act
@@ -19,7 +23,7 @@ namespace ConstructionSet.Tests
         }
 
         [Fact]
-        public void TestClassWithCtorThatHasNonZeroArguments()
+        public void TestCtorWithObjectArgumentIsAccessible()
         {
             // Arrange
             var s = "a";
@@ -35,7 +39,7 @@ namespace ConstructionSet.Tests
         }
 
         [Fact]
-        public void TestClassWithCtorThatHasNonZeroArguments2()
+        public void TestCtorWithStringArgumentIsAccessible()
         {
             // Arrange
             var o = new object();
@@ -50,24 +54,46 @@ namespace ConstructionSet.Tests
             Assert.Null(result.S);
         }
 
-        public class ClassWithPrivateCtors
+        [Theory]
+        [MemberData(nameof(TestScoreData))]
+        public void TestScoresCorrect(Type[] types, object[] parameters, int expectedScore)
         {
-            public string S { get; set; }
-            public object O { get; set; }
+            // Arrange
+            var ctorInfo = typeof(ClassWithPrivateCtors)
+                .GetTypeInfo()
+                .GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)
+                .Single(c =>
+                {
+                    var parameterInfos = c.GetParameters();
+                    return parameterInfos
+                        .Select(p => p.ParameterType)
+                        .SequenceEqual(types);
+                });
 
-            private ClassWithPrivateCtors()
-            {
-            }
+            // Act
+            var score = Create<ClassWithPrivateCtors>
+                .CalculateMatchScore(ctorInfo, parameters);
 
-            private ClassWithPrivateCtors(string s)
-            {
-                S = s;
-            }
-
-            private ClassWithPrivateCtors(object o)
-            {
-                O = o;
-            }
+            // Assert
+            Assert.Equal((uint)expectedScore, score);
         }
+
+        public static IEnumerable<object[]> TestScoreData = new List<object[]>
+        {
+            // Default ctor always has 0 score
+            new object[] { new Type[] { }, new object[] { }, 0 },
+
+            // Parameter types exactly match types in signature
+            new object[] { new [] { typeof(string) }, new object[] { "s" }, 1000 },
+            new object[] { new [] { typeof(object) }, new object[] { new object() }, 1000 },
+            new object[] { new [] { typeof(Parent) }, new object[] { new Parent() }, 1000 },
+
+            // Parameter types are subtypes of the ones in signature
+            new object[] { new [] { typeof(Parent) }, new object[] { new Child() }, 10 },
+
+            // Any type is assignable to object
+            new object[] { new [] { typeof(object) }, new object[] { "s" }, 1 },
+            new object[] { new [] { typeof(object) }, new object[] { 1 }, 1 }
+        };
     }
 }
