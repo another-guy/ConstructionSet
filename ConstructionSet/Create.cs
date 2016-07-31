@@ -26,44 +26,12 @@ namespace ConstructionSet
         {
             return parameters.Length == 0 ?
                 FindDefaultCtor(constructors) :
-                FindBestMatchingCtor(constructors, parameters);
+                ArgumentSignatureMatcher.FindBestMatching(constructors, parameters);
         }
 
         private static ConstructorInfo FindDefaultCtor(IEnumerable<ConstructorInfo> constructors)
         {
             return constructors.Single(ctor => ctor.GetParameters().Length == 0);
-        }
-
-        private static ConstructorInfo FindBestMatchingCtor(
-            IEnumerable<ConstructorInfo> constructors,
-            object[] parameters)
-        {
-            var scores = new Dictionary<int, List<ConstructorInfo>>();
-
-            foreach (var constructor in constructors)
-            {
-                var score = ArgumentSignatureMatcher.CalculateMatchScore(constructor, parameters);
-
-                List<ConstructorInfo> listForThisScore;
-                if (scores.TryGetValue(score, out listForThisScore) == false)
-                {
-                    listForThisScore = new List<ConstructorInfo>();
-                    scores.Add(score, listForThisScore);
-                }
-
-                listForThisScore.Add(constructor);
-            }
-
-            var nonZeroScores = scores.Keys.Where(score => score > 0).ToArray();
-            if (nonZeroScores.Any() == false)
-                throw new InvalidOperationException("Didn't find a constructor mathing passed parameters.");
-
-            var maxScore = nonZeroScores.Max();
-            var constructorInfos = scores[maxScore];
-            if (constructorInfos.Count > 1)
-                throw new InvalidOperationException("Matching mechanism could not choose a best constructor to invoke.");
-
-            return constructorInfos.Single();
         }
     }
 }
