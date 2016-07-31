@@ -9,11 +9,11 @@ namespace ConstructionSet.Tests
         private readonly ITrackable trackable = Substitute.For<ITrackable>();
 
         [Fact]
-        public void CanCallMethodWithArgsButWithoutResult()
+        public void CanCallInstanceMethodWithArgsButWithoutResult()
         {
             // Arrange
             // Act
-            var result = Call.InstanceMethod(target, "Method1", trackable);
+            var result = Call.InstanceMethod(target, "InstanceVoidMethodWithArgs", trackable);
 
             // Assert
             Assert.False(result.HasResult);
@@ -22,11 +22,11 @@ namespace ConstructionSet.Tests
         }
 
         [Fact]
-        public void CanCallMethodWithArgsAndWithResult()
+        public void CanCallInstanceMethodWithArgsAndWithResult()
         {
             // Arrange
             // Act
-            var result = Call.InstanceMethod(target, "Method2", trackable);
+            var result = Call.InstanceMethod(target, "InstanceStringMethodWithArgs", trackable);
 
             // Assert
             Assert.True(result.HasResult);
@@ -35,13 +35,13 @@ namespace ConstructionSet.Tests
         }
 
         [Fact]
-        public void CanCallMethodWithoutArgsAndWithoutResult()
+        public void CanCallInstanceMethodWithoutArgsAndWithoutResult()
         {
             // Arrange
             ClassWithPrivateMethods.GlobalTrackable = Substitute.For<ITrackable>();
 
             // Act
-            var result = Call.InstanceMethod(target, "Method3");
+            var result = Call.InstanceMethod(target, "InstanceVoidMethodWithoutArgs");
 
             // Assert
             Assert.False(result.HasResult);
@@ -50,13 +50,70 @@ namespace ConstructionSet.Tests
         }
 
         [Fact]
-        public void CanCallMethodWithoutArgsButWithResult()
+        public void CanCallInstanceMethodWithoutArgsButWithResult()
         {
             // Arrange
             ClassWithPrivateMethods.GlobalTrackable = Substitute.For<ITrackable>();
 
             // Act
-            var result = Call.InstanceMethod(target, "Method4");
+            var result = Call.InstanceMethod(target, "InstanceStringMethodWithoutArgs");
+
+            // Assert
+            Assert.True(result.HasResult);
+            Assert.Equal("success", result.Value);
+            ClassWithPrivateMethods.GlobalTrackable.Received(1).Touch();
+        }
+
+
+        [Fact]
+        public void CanCallStaticMethodWithArgsButWithoutResult()
+        {
+            // Arrange
+            // Act
+            var result = Call.StaticMethod(target, "StaticVoidMethodWithArgs", trackable);
+
+            // Assert
+            Assert.False(result.HasResult);
+            Assert.Null(result.Value);
+            trackable.Received(1).Touch();
+        }
+
+        [Fact]
+        public void CanCallStaticMethodWithArgsAndWithResult()
+        {
+            // Arrange
+            // Act
+            var result = Call.StaticMethod(target, "StaticStringMethodWithArgs", trackable);
+
+            // Assert
+            Assert.True(result.HasResult);
+            Assert.Equal("success", result.Value);
+            trackable.Received(1).Touch();
+        }
+
+        [Fact]
+        public void CanCallStaticMethodWithoutArgsAndWithoutResult()
+        {
+            // Arrange
+            ClassWithPrivateMethods.GlobalTrackable = Substitute.For<ITrackable>();
+
+            // Act
+            var result = Call.StaticMethod(target, "StaticVoidMethodWithoutArgs");
+
+            // Assert
+            Assert.False(result.HasResult);
+            Assert.Null(result.Value);
+            ClassWithPrivateMethods.GlobalTrackable.Received(1).Touch();
+        }
+
+        [Fact]
+        public void CanCallStaticMethodWithoutArgsButWithResult()
+        {
+            // Arrange
+            ClassWithPrivateMethods.GlobalTrackable = Substitute.For<ITrackable>();
+
+            // Act
+            var result = Call.StaticMethod(target, "StaticStringMethodWithoutArgs");
 
             // Assert
             Assert.True(result.HasResult);

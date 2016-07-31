@@ -6,22 +6,43 @@ namespace ConstructionSet.Tests
     {
         public static ITrackable GlobalTrackable;
 
-        private void Method1(ITrackable trackable)
+        private void InstanceVoidMethodWithArgs(ITrackable trackable)
         {
             trackable.Touch();
         }
 
-        private string Method2(ITrackable trackable)
+        private string InstanceStringMethodWithArgs(ITrackable trackable)
         {
             trackable.Touch();
             return "success";
         }
-        private void Method3()
+        private void InstanceVoidMethodWithoutArgs()
         {
             GlobalTrackable.Touch();
         }
 
-        private string Method4()
+        private string InstanceStringMethodWithoutArgs()
+        {
+            GlobalTrackable.Touch();
+            return "success";
+        }
+        private static void StaticVoidMethodWithArgs(ITrackable trackable)
+        {
+            trackable.Touch();
+        }
+
+        private static string StaticStringMethodWithArgs(ITrackable trackable)
+        {
+            trackable.Touch();
+            return "success";
+        }
+
+        private static void StaticVoidMethodWithoutArgs()
+        {
+            GlobalTrackable.Touch();
+        }
+
+        private static string StaticStringMethodWithoutArgs()
         {
             GlobalTrackable.Touch();
             return "success";
