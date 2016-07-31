@@ -28,13 +28,13 @@ For example, you may want to build a dummy/fake object and for some reason mocki
 
 ## Installation
 
-ConstructionSet is a available in a form of a NuGet package.
+Mirror is a available in a form of a NuGet package.
 Follow regular installation process to bring it to your project.
-https://www.nuget.org/packages/ConstructionSet/
+https://www.nuget.org/packages/Mirror/
 
 ## Tests
 
-Unit tests are available in ConstructionSet.Tests project.
+Unit tests are available in Mirror.Tests project.
 
 ## License
 

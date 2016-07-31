@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace ConstructionSet.Tests
+namespace Mirror.Tests
 {
     public class CreateTests
     {

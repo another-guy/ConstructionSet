@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Linq;
 using Xunit;
 
-namespace ConstructionSet.Tests
+namespace Mirror.Tests
 {
     public class ArgumentSignatureMatcherTests
     {

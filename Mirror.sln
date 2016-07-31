@@ -10,9 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ConstructionSet", "ConstructionSet\ConstructionSet.xproj", "{539B717D-05B7-4914-9147-8BDA5D8ECC2C}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mirror", "Mirror\Mirror.xproj", "{539B717D-05B7-4914-9147-8BDA5D8ECC2C}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ConstructionSet.Tests", "ConstructionSet.Tests\ConstructionSet.Tests.xproj", "{3EB9E0F6-BA73-43BF-A68B-EF967BECFDB8}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mirror.Tests", "Mirror.Tests\Mirror.Tests.xproj", "{3EB9E0F6-BA73-43BF-A68B-EF967BECFDB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

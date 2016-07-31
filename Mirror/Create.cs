@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace ConstructionSet
+namespace Mirror
 {
     public static class Create<T>
     {

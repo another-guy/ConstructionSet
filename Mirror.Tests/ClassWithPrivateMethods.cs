@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConstructionSet.Tests
+namespace Mirror.Tests
 {
     public class ClassWithPrivateMethods
     {
