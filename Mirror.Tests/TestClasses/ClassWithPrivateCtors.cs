@@ -1,4 +1,4 @@
-﻿namespace Mirror.Tests
+﻿namespace Mirror.Tests.TestClasses
 {
     public class ClassWithPrivateCtors
     {

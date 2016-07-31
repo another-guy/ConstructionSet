@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using Mirror.Tests.TestClasses;
+using NSubstitute;
 using Xunit;
 
 namespace Mirror.Tests

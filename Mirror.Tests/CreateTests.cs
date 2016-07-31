@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mirror.Tests.TestClasses;
+using System;
 using Xunit;
 
 namespace Mirror.Tests
