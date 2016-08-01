@@ -13,7 +13,7 @@
 
         private static int targetStaticField = DefaultValue;
         public static int DirectStaticField { get { return targetStaticField; } }
-
+        
         private int TargetInstanceProperty
         {
             get { return DirectInstanceProperty; }

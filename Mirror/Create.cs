@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -12,7 +11,7 @@ namespace Mirror
             var constructors =
                 typeof(T)
                     .GetTypeInfo()
-                    .GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)
+                    .GetConstructors(TargetKind.PrivateInstance)
                     .ToList();
 
             var constructor = FindCtorBySignature(constructors, parameters);

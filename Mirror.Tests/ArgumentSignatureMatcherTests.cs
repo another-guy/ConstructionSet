@@ -16,7 +16,7 @@ namespace Mirror.Tests
             // Arrange
             var ctorInfo = typeof(ClassWithPrivateCtors)
                 .GetTypeInfo()
-                .GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)
+                .GetConstructors(TargetKind.PrivateInstance)
                 .Single(c =>
                 {
                     var parameterInfos = c.GetParameters();
