@@ -20,8 +20,8 @@ dotnet test ./Mirror.Tests -c Release -f netcoreapp1.0
 dotnet build ./Mirror.Tests -c Release -f netcoreapp1.0
 
 mono \  
-./Mirror.Tests/bin/Release/net451/*/dotnet-test-xunit.exe \
-./Mirror.Tests/bin/Release/net451/*/Mirror.Tests.dll
+./Mirror.Tests/bin/Release/netcoreapp1.0/*/dotnet-test-xunit.exe \
+./Mirror.Tests/bin/Release/netcoreapp1.0/*/Mirror.Tests.dll
 
 revision=${TRAVIS_JOB_ID:=1}  
 revision=$(printf "%04d" $revision) 
