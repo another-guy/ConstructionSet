@@ -30,10 +30,10 @@ var instanceTarget = Use.Target(targetObject)
 ### Creating an instance of an object
 
 ```cs
-// Creates object by calling it's default constructor
+// Creates object by calling its default constructor
 MyClass newInstance = Use.Target<MyClass>().ToCreateInstance();
 
-// Creates object by calling it's best matching parameterized constructor
+// Creates object by calling its best matching parameterized constructor
 MyClass newInstance = Use.Target<MyClass>().ToCreateInstance("Alice");
 ```
 
