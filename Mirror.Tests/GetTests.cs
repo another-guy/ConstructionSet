@@ -17,7 +17,7 @@ namespace ConstructionSet.Tests
             var value = Get.FieldValue(target, fieldName);
 
             // Assert
-            Assert.Equal(ClassWithPrivateFields.DefaultValue, value);
+            Assert.Equal(target.DirectInstanceField, value);
         }
 
         [Fact]
@@ -30,7 +30,7 @@ namespace ConstructionSet.Tests
             var value = Get.StaticFieldValue<ClassWithPrivateFields>(fieldName);
 
             // Assert
-            Assert.Equal(ClassWithPrivateFields.DefaultValue, value);
+            Assert.Equal(ClassWithPrivateFields.DirectStaticField, value);
         }
     }
 }

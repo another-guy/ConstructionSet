@@ -2,11 +2,14 @@
 {
     public class ClassWithPrivateFields
     {
-        public static int DefaultValue = int.MaxValue;
-        public static string InstanceFieldName = nameof(number);
-        public static string StaticFieldName = nameof(otherNumber);
+        private static int DefaultValue = int.MaxValue;
+        public static string InstanceFieldName = nameof(targetInstanceField);
+        public static string StaticFieldName = nameof(targetStaticField);
 
-        private int number = DefaultValue;
-        private static int otherNumber = DefaultValue;
+        private int targetInstanceField = DefaultValue;
+        public int DirectInstanceField { get { return targetInstanceField; } }
+
+        private static int targetStaticField = DefaultValue;
+        public static int DirectStaticField { get { return targetStaticField; } }
     }
 }
