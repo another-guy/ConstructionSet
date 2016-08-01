@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Reflection;
 
-namespace Mirror
+namespace Mirror.Internals
 {
-    public static class Create<T>
+    public static class ConstructorInvoke<T>
     {
         public static T UsingPrivateConstructor(params object[] parameters)
         {   

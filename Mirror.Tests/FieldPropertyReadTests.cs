@@ -1,9 +1,10 @@
 ﻿using Mirror.Tests.TestClasses;
+using Mirror.Internals;
 using Xunit;
 
 namespace Mirror.Tests
 {
-    public class GetTests
+    public class FieldPropertyReadTests
     {
         private readonly ClassWithPrivateFields target = new ClassWithPrivateFields();
 
@@ -14,7 +15,7 @@ namespace Mirror.Tests
             var fieldName = ClassWithPrivateFields.InstanceFieldName;
 
             // Act
-            var value = Get.Value(target, fieldName);
+            var value = FieldPropertyRead.Value(target, fieldName);
 
             // Assert
             Assert.Equal(target.DirectInstanceField, value);
@@ -27,7 +28,7 @@ namespace Mirror.Tests
             var fieldName = ClassWithPrivateFields.StaticFieldName;
 
             // Act
-            var value = Get.StaticValue<ClassWithPrivateFields>(fieldName);
+            var value = FieldPropertyRead.StaticValue<ClassWithPrivateFields>(fieldName);
 
             // Assert
             Assert.Equal(ClassWithPrivateFields.DirectStaticField, value);
@@ -40,7 +41,7 @@ namespace Mirror.Tests
             var propertyName = ClassWithPrivateFields.InstancePropertyName;
 
             // Act
-            var value = Get.Value(target, propertyName);
+            var value = FieldPropertyRead.Value(target, propertyName);
 
             // Assert
             Assert.Equal(target.DirectInstanceProperty, value);
@@ -53,7 +54,7 @@ namespace Mirror.Tests
             var propertyName = ClassWithPrivateFields.StaticPropertyName;
 
             // Act
-            var value = Get.StaticValue<ClassWithPrivateFields>(propertyName);
+            var value = FieldPropertyRead.StaticValue<ClassWithPrivateFields>(propertyName);
 
             // Assert
             Assert.Equal(ClassWithPrivateFields.DirectStaticProperty, value);

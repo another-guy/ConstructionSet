@@ -1,10 +1,11 @@
-﻿using Mirror.Tests.TestClasses;
+﻿using Mirror.Internals;
+using Mirror.Tests.TestClasses;
 using NSubstitute;
 using Xunit;
 
 namespace Mirror.Tests
 {
-    public class CallTests
+    public class MethodInvokeTests
     {
         private readonly ClassWithPrivateMethods target = new ClassWithPrivateMethods();
         private readonly ITrackable trackable = Substitute.For<ITrackable>();
@@ -14,7 +15,7 @@ namespace Mirror.Tests
         {
             // Arrange
             // Act
-            var result = Call.InstanceMethod(target, "InstanceVoidMethodWithArgs", trackable);
+            var result = MethodInvoke.InstanceMethod(target, "InstanceVoidMethodWithArgs", trackable);
 
             // Assert
             Assert.False(result.HasResult);
@@ -27,7 +28,7 @@ namespace Mirror.Tests
         {
             // Arrange
             // Act
-            var result = Call.InstanceMethod(target, "InstanceStringMethodWithArgs", trackable);
+            var result = MethodInvoke.InstanceMethod(target, "InstanceStringMethodWithArgs", trackable);
 
             // Assert
             Assert.True(result.HasResult);
@@ -39,30 +40,24 @@ namespace Mirror.Tests
         public void CanCallInstanceMethodWithoutArgsAndWithoutResult()
         {
             // Arrange
-            ClassWithPrivateMethods.GlobalTrackable = Substitute.For<ITrackable>();
-
             // Act
-            var result = Call.InstanceMethod(target, "InstanceVoidMethodWithoutArgs");
+            var result = MethodInvoke.InstanceMethod(target, "InstanceVoidMethodWithoutArgs");
 
             // Assert
             Assert.False(result.HasResult);
             Assert.Null(result.Value);
-            ClassWithPrivateMethods.GlobalTrackable.Received(1).Touch();
         }
 
         [Fact]
         public void CanCallInstanceMethodWithoutArgsButWithResult()
         {
             // Arrange
-            ClassWithPrivateMethods.GlobalTrackable = Substitute.For<ITrackable>();
-
             // Act
-            var result = Call.InstanceMethod(target, "InstanceStringMethodWithoutArgs");
+            var result = MethodInvoke.InstanceMethod(target, "InstanceStringMethodWithoutArgs");
 
             // Assert
             Assert.True(result.HasResult);
-            Assert.Equal("success", result.Value);
-            ClassWithPrivateMethods.GlobalTrackable.Received(1).Touch();
+            Assert.Equal("successInstanceStringMethodWithoutArgs", result.Value);
         }
 
 
@@ -71,7 +66,8 @@ namespace Mirror.Tests
         {
             // Arrange
             // Act
-            var result = Call.StaticMethod(target, "StaticVoidMethodWithArgs", trackable);
+            var result = MethodInvoke
+                .StaticMethod<ClassWithPrivateMethods>("StaticVoidMethodWithArgs", trackable);
 
             // Assert
             Assert.False(result.HasResult);
@@ -84,11 +80,12 @@ namespace Mirror.Tests
         {
             // Arrange
             // Act
-            var result = Call.StaticMethod(target, "StaticStringMethodWithArgs", trackable);
+            var result = MethodInvoke
+                .StaticMethod<ClassWithPrivateMethods>("StaticStringMethodWithArgs", trackable);
 
             // Assert
             Assert.True(result.HasResult);
-            Assert.Equal("success", result.Value);
+            Assert.Equal("successStaticStringMethodWithArgs", result.Value);
             trackable.Received(1).Touch();
         }
 
@@ -96,30 +93,26 @@ namespace Mirror.Tests
         public void CanCallStaticMethodWithoutArgsAndWithoutResult()
         {
             // Arrange
-            ClassWithPrivateMethods.GlobalTrackable = Substitute.For<ITrackable>();
-
             // Act
-            var result = Call.StaticMethod(target, "StaticVoidMethodWithoutArgs");
+            var result = MethodInvoke
+                .StaticMethod<ClassWithPrivateMethods>("StaticVoidMethodWithoutArgs");
 
             // Assert
             Assert.False(result.HasResult);
             Assert.Null(result.Value);
-            ClassWithPrivateMethods.GlobalTrackable.Received(1).Touch();
         }
 
         [Fact]
         public void CanCallStaticMethodWithoutArgsButWithResult()
         {
             // Arrange
-            ClassWithPrivateMethods.GlobalTrackable = Substitute.For<ITrackable>();
-
             // Act
-            var result = Call.StaticMethod(target, "StaticStringMethodWithoutArgs");
+            var result = MethodInvoke
+                .StaticMethod<ClassWithPrivateMethods>("StaticStringMethodWithoutArgs");
 
             // Assert
             Assert.True(result.HasResult);
-            Assert.Equal("success", result.Value);
-            ClassWithPrivateMethods.GlobalTrackable.Received(1).Touch();
+            Assert.Equal("successStaticStringMethodWithoutArgs", result.Value);
         }
     }
 }

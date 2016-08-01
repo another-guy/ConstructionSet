@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Mirror
+namespace Mirror.Internals
 {
     public class TargetKind
     {

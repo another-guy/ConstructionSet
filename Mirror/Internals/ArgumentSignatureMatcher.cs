@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Mirror
+namespace Mirror.Internals
 {
     public static class ArgumentSignatureMatcher
     {

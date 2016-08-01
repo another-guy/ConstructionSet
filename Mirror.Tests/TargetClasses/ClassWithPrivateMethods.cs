@@ -4,8 +4,6 @@ namespace Mirror.Tests.TestClasses
 {
     public class ClassWithPrivateMethods
     {
-        public static ITrackable GlobalTrackable;
-
         private void InstanceVoidMethodWithArgs(ITrackable trackable)
         {
             trackable.Touch();
@@ -16,16 +14,16 @@ namespace Mirror.Tests.TestClasses
             trackable.Touch();
             return "success";
         }
+
         private void InstanceVoidMethodWithoutArgs()
         {
-            GlobalTrackable.Touch();
         }
 
         private string InstanceStringMethodWithoutArgs()
         {
-            GlobalTrackable.Touch();
-            return "success";
+            return "successInstanceStringMethodWithoutArgs";
         }
+
         private static void StaticVoidMethodWithArgs(ITrackable trackable)
         {
             trackable.Touch();
@@ -34,18 +32,16 @@ namespace Mirror.Tests.TestClasses
         private static string StaticStringMethodWithArgs(ITrackable trackable)
         {
             trackable.Touch();
-            return "success";
+            return "successStaticStringMethodWithArgs";
         }
 
         private static void StaticVoidMethodWithoutArgs()
         {
-            GlobalTrackable.Touch();
         }
 
         private static string StaticStringMethodWithoutArgs()
         {
-            GlobalTrackable.Touch();
-            return "success";
+            return "successStaticStringMethodWithoutArgs";
         }
     }
 

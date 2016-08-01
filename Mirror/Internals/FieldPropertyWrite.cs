@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 
-namespace Mirror
+namespace Mirror.Internals
 {
-    public static class Set
+    public static class FieldPropertyWrite
     {
         public static void Value<T>(T target, string memberName, object value)
         {

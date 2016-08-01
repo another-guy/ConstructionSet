@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 
-namespace Mirror
+namespace Mirror.Internals
 {
-    public static class Get
+    public static class FieldPropertyRead
     {
         public static object Value<T>(T target, string memberName)
         {

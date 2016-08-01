@@ -1,17 +1,18 @@
-﻿using Mirror.Tests.TestClasses;
+﻿using Mirror.Internals;
+using Mirror.Tests.TestClasses;
 using System;
 using Xunit;
 
 namespace Mirror.Tests
 {
-    public class CreateTests
+    public class ConstructorInvokeTests
     {
         [Fact]
         public void TestCtorWithNoArgumentsIsAccessible()
         {
             // Arrange
             // Act
-            var result = Create<ClassWithPrivateCtors>
+            var result = ConstructorInvoke<ClassWithPrivateCtors>
                 .UsingPrivateConstructor();
 
             // Assert
@@ -27,7 +28,7 @@ namespace Mirror.Tests
             var s = "a";
 
             // Act
-            var result = Create<ClassWithPrivateCtors>
+            var result = ConstructorInvoke<ClassWithPrivateCtors>
                 .UsingPrivateConstructor(s);
 
             // Assert
@@ -43,7 +44,7 @@ namespace Mirror.Tests
             var o = new object();
 
             // Act
-            var result = Create<ClassWithPrivateCtors>
+            var result = ConstructorInvoke<ClassWithPrivateCtors>
                 .UsingPrivateConstructor(o);
 
             // Assert
@@ -58,7 +59,7 @@ namespace Mirror.Tests
             // Arrange
             // Act
             var caught = Assert.Throws<InvalidOperationException>(
-                () => Create<ClassWithPrivateCtors>
+                () => ConstructorInvoke<ClassWithPrivateCtors>
                     .UsingPrivateConstructor("s", "s", "s"));
             
             // Assert
@@ -71,7 +72,7 @@ namespace Mirror.Tests
             // Arrange
             // Act
             var caught = Assert.Throws<InvalidOperationException>(
-                () => Create<ClassWithPrivateCtors>
+                () => ConstructorInvoke<ClassWithPrivateCtors>
                     .UsingPrivateConstructor(1, 1, 1));
 
             // Assert
