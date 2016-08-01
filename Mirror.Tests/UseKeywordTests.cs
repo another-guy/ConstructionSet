@@ -93,9 +93,8 @@ namespace Mirror.Tests
             Assert.Equal(setValue, readValue);
         }
 
-        // TODO FIXME More tests for methods please
         [Fact]
-        public void TestStaticMethodCall()
+        public void TestStringStaticMethodCall()
         {
             // Arrange
             // Act
@@ -104,6 +103,44 @@ namespace Mirror.Tests
 
             // Assert
             Assert.Equal("successStaticStringMethodWithoutArgs", result);
+        }
+
+
+        [Fact]
+        public void TestStringInstanceMethodCall()
+        {
+            // Arrange
+            var target = new ClassWithPrivateMethods();
+
+            // Act
+            var result = Use.Target(target)
+                .ToCall<string>("InstanceStringMethodWithoutArgs");
+
+            // Assert
+            Assert.Equal("successInstanceStringMethodWithoutArgs", result);
+        }
+
+        [Fact]
+        public void TestVoidStaticMethodCall()
+        {
+            // Arrange
+            // Act
+            Use.Target<ClassWithPrivateMethods>().ToCall("StaticVoidMethodWithoutArgs");
+
+            // Assert
+        }
+
+
+        [Fact]
+        public void TestVoidInstanceMethodCall()
+        {
+            // Arrange
+            var target = new ClassWithPrivateMethods();
+
+            // Act
+            Use.Target(target).ToCall("InstanceVoidMethodWithoutArgs");
+
+            // Assert
         }
     }
 }
