@@ -14,7 +14,7 @@ namespace Mirror.Tests
             var fieldName = ClassWithPrivateFields.InstanceFieldName;
 
             // Act
-            var value = Get.FieldValue(target, fieldName);
+            var value = Get.Value(target, fieldName);
 
             // Assert
             Assert.Equal(target.DirectInstanceField, value);
@@ -27,7 +27,7 @@ namespace Mirror.Tests
             var fieldName = ClassWithPrivateFields.StaticFieldName;
 
             // Act
-            var value = Get.StaticFieldValue<ClassWithPrivateFields>(fieldName);
+            var value = Get.StaticValue<ClassWithPrivateFields>(fieldName);
 
             // Assert
             Assert.Equal(ClassWithPrivateFields.DirectStaticField, value);
@@ -40,7 +40,7 @@ namespace Mirror.Tests
             var propertyName = ClassWithPrivateFields.InstancePropertyName;
 
             // Act
-            var value = Get.PropertyValue(target, propertyName);
+            var value = Get.Value(target, propertyName);
 
             // Assert
             Assert.Equal(target.DirectInstanceProperty, value);
@@ -53,7 +53,7 @@ namespace Mirror.Tests
             var propertyName = ClassWithPrivateFields.StaticPropertyName;
 
             // Act
-            var value = Get.StaticPropertyValue<ClassWithPrivateFields>(propertyName);
+            var value = Get.StaticValue<ClassWithPrivateFields>(propertyName);
 
             // Assert
             Assert.Equal(ClassWithPrivateFields.DirectStaticProperty, value);

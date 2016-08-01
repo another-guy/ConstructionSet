@@ -4,24 +4,24 @@ namespace Mirror
 {
     public static class Set
     {
-        public static void FieldValue<T>(T target, string fieldName, object value)
+        public static void Value<T>(T target, string memberName, object value)
         {
-            typeof(T).GetField(fieldName, TargetKind.PrivateInstance).SetValue(target, value);
+            var type = typeof(T);
+            var property = type.GetProperty(memberName, TargetKind.PrivateInstance);
+            if (property != null)
+                property.SetValue(target, value);
+            else
+                type.GetField(memberName, TargetKind.PrivateInstance).SetValue(target, value);
         }
 
-        public static void StaticFieldValue<T>(string fieldName, object value)
+        public static void StaticValue<T>(string memberName, object value)
         {
-            typeof(T).GetField(fieldName, TargetKind.PrivateStatic).SetValue(null, value);
-        }
-
-        public static void PropertyValue<T>(T target, string propertyName, int value)
-        {
-            typeof(T).GetProperty(propertyName, TargetKind.PrivateInstance).SetValue(target, value);
-        }
-
-        public static void StaticPropertyValue<T>(string propertyName, int value)
-        {
-            typeof(T).GetProperty(propertyName, TargetKind.PrivateStatic).SetValue(null, value);
+            var type = typeof(T);
+            var property = type.GetProperty(memberName, TargetKind.PrivateStatic);
+            if (property != null)
+                property.SetValue(null, value);
+            else
+                type.GetField(memberName, TargetKind.PrivateStatic).SetValue(null, value);
         }
     }
 }
