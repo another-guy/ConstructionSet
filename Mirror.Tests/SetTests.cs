@@ -33,5 +33,31 @@ namespace ConstructionSet.Tests
             // Assert
             Assert.Equal(ClassWithPrivateFields.DirectStaticField, valueToSet);
         }
+
+        [Fact]
+        public void CanSetInstanceProperty()
+        {
+            // Arrange
+            var propertyName = ClassWithPrivateFields.InstancePropertyName;
+
+            // Act
+            Set.PropertyValue(target, propertyName, valueToSet);
+
+            // Assert
+            Assert.Equal(target.DirectInstanceProperty, valueToSet);
+        }
+
+        [Fact]
+        public void CanSetStaticProperty()
+        {
+            // Arrange
+            var propertyName = ClassWithPrivateFields.StaticPropertyName;
+
+            // Act
+            Set.StaticPropertyValue<ClassWithPrivateFields>(propertyName, valueToSet);
+
+            // Assert
+            Assert.Equal(ClassWithPrivateFields.DirectStaticProperty, valueToSet);
+        }
     }
 }

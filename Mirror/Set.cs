@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace ConstructionSet
 {
@@ -15,6 +16,16 @@ namespace ConstructionSet
         public static void StaticFieldValue<T>(string fieldName, object value)
         {
             typeof(T).GetField(fieldName, privateStatic).SetValue(null, value);
+        }
+
+        public static void PropertyValue<T>(T target, string propertyName, int value)
+        {
+            typeof(T).GetProperty(propertyName, privateInstance).SetValue(target, value);
+        }
+
+        public static void StaticPropertyValue<T>(string propertyName, int value)
+        {
+            typeof(T).GetProperty(propertyName, privateStatic).SetValue(null, value);
         }
     }
 }

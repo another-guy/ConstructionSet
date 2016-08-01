@@ -14,10 +14,18 @@
         private static int targetStaticField = DefaultValue;
         public static int DirectStaticField { get { return targetStaticField; } }
 
-        private int TargetInstanceProperty => DirectInstanceProperty;
+        private int TargetInstanceProperty
+        {
+            get { return DirectInstanceProperty; }
+            set { DirectInstanceProperty = value; }
+        }
         public int DirectInstanceProperty;
 
-        private static int TargetStaticProperty => DirectStaticProperty;
+        private static int TargetStaticProperty
+        {
+            get { return DirectStaticProperty; }
+            set { DirectStaticProperty = value; }
+        }
         public static int DirectStaticProperty;
     }
 }
