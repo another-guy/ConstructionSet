@@ -20,9 +20,13 @@ namespace Mirror.Wrappers
             return (R)FieldPropertyRead.StaticValue<T>(memberName);
         }
         
-        public MethodInvoke.Result ToCall(string methodName, params object[] parameters)
+        public void ToCall(string methodName, params object[] parameters)
         {
-            return MethodInvoke.StaticMethod<T>(methodName, parameters);
+            MethodInvoke.StaticMethod<T>(methodName, parameters);
+        }
+        public R ToCall<R>(string methodName, params object[] parameters)
+        {
+            return (R)MethodInvoke.StaticMethod<T>(methodName, parameters).Value;
         }
     }
 }

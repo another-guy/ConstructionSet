@@ -100,10 +100,10 @@ namespace Mirror.Tests
             // Arrange
             // Act
             var result = Use.Target<ClassWithPrivateMethods>()
-                .ToCall("StaticStringMethodWithoutArgs");
+                .ToCall<string>("StaticStringMethodWithoutArgs");
 
             // Assert
-            Assert.Equal("successStaticStringMethodWithoutArgs", result.Value);
+            Assert.Equal("successStaticStringMethodWithoutArgs", result);
         }
     }
 }

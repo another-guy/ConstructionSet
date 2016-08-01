@@ -1,20 +1,82 @@
 ﻿## Synopsis
 
-Helps using reflection in C#
+Simplifies C# reflection code.
 
 ## Code Example
 
-An object can be created by calling its private default constructor:
+### Describing the target
+
+To access or invoke a private method that is defined on a `type` or an `object` client code needs to specify the target correctly.
+Targets' members can be either static or instance.
+Notice that `constructors` must be accessed through a **static** target since no **instance target** is available yet:
 
 ```cs
-MyClass result = Create<MyClass>.UsingPrivateConstructor();
+class MyClass {
+  private string name;
+  private MyClass() { this.name = "Name is not set"; }
+  private MyClass(string name) { this.name = name; }
+}
+
+MyClass targetObject = ...;
+
+var staticTarget = Use.Target<MyClass>();
+// staticTarget can now be used to call constructor or
+// call or access static members
+
+var instanceTarget = Use.Target(targetObject)
+// instanceTarget can now be used to call or access targetObject's members
 ```
 
-If the class has a private constructor that accepts parameters, it can be invoked too.
-The Create<T> class will do its best to find the constructor with a signature matching types of the passed arguments.
+### Creating an instance of an object
 
 ```cs
-MyClass result = Create<MyClass>.UsingPrivateConstructor(1, "a");
+// Creates object by calling it's default constructor
+MyClass newInstance = Use.Target<MyClass>().ToCreateInstance();
+
+// Creates object by calling it's best matching parameterized constructor
+MyClass newInstance = Use.Target<MyClass>().ToCreateInstance("Alice");
+```
+
+### Working with instance members
+
+```cs
+class MyClass {
+  private string name;
+  private string Name { get { return name; } set { name = value } }
+  private void SetName(string newName) { name = newName; }
+  private string GetName() { return name; }
+}
+MyClass target = new MyClass();
+
+// Field/Property access code looks similar
+Use.Target(target).ToSet("name").Value("Bob")
+Use.Target(target).ToSet("Name").Value("Chris")
+string nameFromField = Use.Target(target).ToGet<string>("name");
+string nameFromProperty = Use.Target(target).ToGet<string>("Name");
+
+// Method access
+Use.Target(target).ToCall("SetName", "David");
+string nameFromMethod = Use.Target(target).ToCall<string>("GetName");
+```
+
+### Working with static members
+
+```cs
+static class MyClass {
+  private static string name;
+  private static string Name { get { return name; } set { name = value } }
+  private static void SetName(string newName) { name = newName; }
+  private static string GetName() { return name; }
+}
+
+Use.Target<MyClass>().ToSet("name").Value("Bob")
+string nameFromStaticField = Use.Target<MyClass>().ToGet<string>("name");
+
+Use.Target<MyClass>().ToSet("Name").Value("Chris")
+string nameFromStaticProperty = Use.Target<MyClass>().ToGet<string>("Name");
+
+Use.Target<MyClass>().ToCall("SetName", "David");
+string nameFromStaticMethod = Use.Target<MyClass>().ToCall<string>("GetName");
 ```
 
 ## Motivation

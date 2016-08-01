@@ -20,5 +20,15 @@ namespace Mirror.Wrappers
         {
             return (R)FieldPropertyRead.Value(@object, memberName);
         }
+
+        public void ToCall(string methodName, params object[] parameters)
+        {
+            MethodInvoke.InstanceMethod(@object, methodName, parameters);
+        }
+
+        public R ToCall<R>(string methodName, params object[] parameters)
+        {
+            return (R)MethodInvoke.InstanceMethod(@object, methodName, parameters).Value;
+        }
     }
 }
