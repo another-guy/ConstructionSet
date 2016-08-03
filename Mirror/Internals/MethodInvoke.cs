@@ -7,45 +7,31 @@ namespace Mirror.Internals
 {
     public static class MethodInvoke
     {
+        // TODO Delete this!
         public struct Result
         {
             public bool HasResult;
             public object Value;
         }
 
-        public static Result InstanceMethod<T>(
-            this T target,
-            string methodName)
+        public static object[] NormalizeParameters(object first, object[] rest)
         {
-            return InvokeMethod<T>(false, target, methodName, new object[0]);
+            return new object[] { first }.Concat(rest).ToArray();
         }
 
         public static Result InstanceMethod<T>(
             this T target,
             string methodName,
-            object firstParameter,
-            params object[] rest)
+            object[] parameters)
         {
-            return InvokeMethod<T>(false, target, methodName, NormalizeParameters(firstParameter, rest));
-        }
-
-        public static Result StaticMethod<T>(
-            string methodName)
-        {
-            return InvokeMethod<T>(true, null, methodName, new object[0]);
+            return InvokeMethod<T>(false, target, methodName, parameters);
         }
 
         public static Result StaticMethod<T>(
             string methodName,
-            object firstParameter,
-            params object[] rest)
+            object[] parameters)
         {
-            return InvokeMethod<T>(true, null, methodName, NormalizeParameters(firstParameter, rest));
-        }
-
-        private static object[] NormalizeParameters(object first, object[] rest)
-        {
-            return new[] { first }.Concat(rest).ToArray();
+            return InvokeMethod<T>(true, null, methodName, parameters);
         }
 
         private static Result InvokeMethod<T>(

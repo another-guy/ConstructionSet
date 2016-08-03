@@ -15,7 +15,7 @@ namespace Mirror.Tests
         {
             // Arrange
             // Act
-            var result = MethodInvoke.InstanceMethod(target, "InstanceVoidMethodWithArgs", trackable);
+            var result = MethodInvoke.InstanceMethod(target, "InstanceVoidMethodWithArgs", new object[] { trackable });
 
             // Assert
             Assert.False(result.HasResult);
@@ -28,7 +28,7 @@ namespace Mirror.Tests
         {
             // Arrange
             // Act
-            var result = MethodInvoke.InstanceMethod(target, "InstanceStringMethodWithArgs", trackable);
+            var result = MethodInvoke.InstanceMethod(target, "InstanceStringMethodWithArgs", new object[] { trackable });
 
             // Assert
             Assert.True(result.HasResult);
@@ -41,7 +41,7 @@ namespace Mirror.Tests
         {
             // Arrange
             // Act
-            var result = MethodInvoke.InstanceMethod(target, "InstanceVoidMethodWithoutArgs");
+            var result = MethodInvoke.InstanceMethod(target, "InstanceVoidMethodWithoutArgs", new object[0]);
 
             // Assert
             Assert.False(result.HasResult);
@@ -53,7 +53,7 @@ namespace Mirror.Tests
         {
             // Arrange
             // Act
-            var result = MethodInvoke.InstanceMethod(target, "InstanceStringMethodWithoutArgs");
+            var result = MethodInvoke.InstanceMethod(target, "InstanceStringMethodWithoutArgs", new object[0]);
 
             // Assert
             Assert.True(result.HasResult);
@@ -67,7 +67,7 @@ namespace Mirror.Tests
             // Arrange
             // Act
             var result = MethodInvoke
-                .StaticMethod<ClassWithPrivateMethods>("StaticVoidMethodWithArgs", trackable);
+                .StaticMethod<ClassWithPrivateMethods>("StaticVoidMethodWithArgs", new object[] { trackable });
 
             // Assert
             Assert.False(result.HasResult);
@@ -81,7 +81,7 @@ namespace Mirror.Tests
             // Arrange
             // Act
             var result = MethodInvoke
-                .StaticMethod<ClassWithPrivateMethods>("StaticStringMethodWithArgs", trackable);
+                .StaticMethod<ClassWithPrivateMethods>("StaticStringMethodWithArgs", new object[] { trackable });
 
             // Assert
             Assert.True(result.HasResult);
@@ -95,7 +95,7 @@ namespace Mirror.Tests
             // Arrange
             // Act
             var result = MethodInvoke
-                .StaticMethod<ClassWithPrivateMethods>("StaticVoidMethodWithoutArgs");
+                .StaticMethod<ClassWithPrivateMethods>("StaticVoidMethodWithoutArgs", new object[0]);
 
             // Assert
             Assert.False(result.HasResult);
@@ -108,7 +108,7 @@ namespace Mirror.Tests
             // Arrange
             // Act
             var result = MethodInvoke
-                .StaticMethod<ClassWithPrivateMethods>("StaticStringMethodWithoutArgs");
+                .StaticMethod<ClassWithPrivateMethods>("StaticStringMethodWithoutArgs", new object[0]);
 
             // Assert
             Assert.True(result.HasResult);
@@ -125,7 +125,7 @@ namespace Mirror.Tests
             // Arrange
             // Act
             var result = (string)MethodInvoke
-                .InstanceMethod(target, "InstanceStringMethodWhichIsOkayWhenArgIsNull", null)
+                .InstanceMethod(target, "InstanceStringMethodWhichIsOkayWhenArgIsNull", new object[] { null } )
                 .Value;
 
             // Assert
