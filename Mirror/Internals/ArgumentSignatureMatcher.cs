@@ -7,6 +7,9 @@ namespace Mirror.Internals
 {
     public static class ArgumentSignatureMatcher
     {
+        // empty args                          -> parameters ==   null
+        // single null arg                     -> parameters == [ null ]
+        // first arg null, second arg not null -> parameters == [ null, 123 ]
         public static int CalculateMatchScore(MethodBase method, object[] parameters)
         {
             var parameterInfos = method.GetParameters();
@@ -18,7 +21,23 @@ namespace Mirror.Internals
                 for (var i = 0; i < parameters.Length; i++)
                 {
                     var parameterInfoType = parameterInfos[i].ParameterType;
-                    var parameterType = parameters[i].GetType();
+                    var parameter = parameters[i];
+
+                    if (parameter == null)
+                    {
+                        if (parameterInfoType.GetTypeInfo().IsClass)
+                        {
+                            score += 1;
+                            continue;
+                        }
+                        else
+                        {
+                            // Null is passed, but it can not be assigned to a non-class parameter
+                            return 0;
+                        }
+                    }
+
+                    var parameterType = parameter.GetType();
 
                     // Types exactly match each other
                     if (parameterInfoType == parameterType)
@@ -40,15 +59,15 @@ namespace Mirror.Internals
         }
 
         public static T FindBestMatching<T>(
-            IEnumerable<T> constructors,
+            IEnumerable<T> methods,
             object[] parameters)
             where T : MethodBase
         {
             var scores = new Dictionary<int, List<T>>();
 
-            foreach (var constructor in constructors)
+            foreach (var method in methods)
             {
-                var score = CalculateMatchScore(constructor, parameters);
+                var score = CalculateMatchScore(method, parameters);
 
                 List<T> listForThisScore;
                 if (scores.TryGetValue(score, out listForThisScore) == false)
@@ -57,7 +76,7 @@ namespace Mirror.Internals
                     scores.Add(score, listForThisScore);
                 }
 
-                listForThisScore.Add(constructor);
+                listForThisScore.Add(method);
             }
             
             var memberType = typeof(T) == typeof(ConstructorInfo) ? "constructor" : "method";
@@ -67,11 +86,11 @@ namespace Mirror.Internals
                 throw new InvalidOperationException($"Didn't find a {memberType} mathing passed parameters.");
 
             var maxScore = nonZeroScores.Max();
-            var constructorInfos = scores[maxScore];
-            if (constructorInfos.Count > 1)
+            var methodInfos = scores[maxScore];
+            if (methodInfos.Count > 1)
                 throw new InvalidOperationException($"Matching mechanism could not choose a best {memberType} to invoke.");
 
-            return constructorInfos.Single();
+            return methodInfos.Single();
         }
     }
 }

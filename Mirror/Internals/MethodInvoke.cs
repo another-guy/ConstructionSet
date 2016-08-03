@@ -13,17 +13,22 @@ namespace Mirror.Internals
             public object Value;
         }
 
+        public static object[] NormalizeParameters(object first, object[] rest)
+        {
+            return new object[] { first }.Concat(rest).ToArray();
+        }
+
         public static Result InstanceMethod<T>(
             this T target,
             string methodName,
-            params object[] parameters)
+            object[] parameters)
         {
             return InvokeMethod<T>(false, target, methodName, parameters);
         }
 
         public static Result StaticMethod<T>(
             string methodName,
-            params object[] parameters)
+            object[] parameters)
         {
             return InvokeMethod<T>(true, null, methodName, parameters);
         }
