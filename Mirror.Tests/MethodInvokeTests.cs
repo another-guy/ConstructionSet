@@ -114,5 +114,22 @@ namespace Mirror.Tests
             Assert.True(result.HasResult);
             Assert.Equal("successStaticStringMethodWithoutArgs", result.Value);
         }
+
+
+        // TODO Add same test that will have null passed to a value type parameter (FAIL)
+        // TODO Add same test (with null) for static method
+        // TODO Add test that does not need parameters at all
+        [Fact]
+        public void CanCallMethodWithNullArgs()
+        {
+            // Arrange
+            // Act
+            var result = (string)MethodInvoke
+                .InstanceMethod(target, "InstanceStringMethodWhichIsOkayWhenArgIsNull", null)
+                .Value;
+
+            // Assert
+            Assert.Equal(result, "Arg is null");
+        }
     }
 }

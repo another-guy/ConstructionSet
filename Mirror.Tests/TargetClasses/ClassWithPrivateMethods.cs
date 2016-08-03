@@ -24,6 +24,11 @@ namespace Mirror.Tests.TestClasses
             return "successInstanceStringMethodWithoutArgs";
         }
 
+        private string InstanceStringMethodWhichIsOkayWhenArgIsNull(object arg)
+        {
+            return arg == null ? "Arg is null" : "Arg is not null";
+        }
+
         private static void StaticVoidMethodWithArgs(ITrackable trackable)
         {
             trackable.Touch();
