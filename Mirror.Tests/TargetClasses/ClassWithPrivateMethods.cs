@@ -29,6 +29,10 @@ namespace Mirror.Tests.TestClasses
             return arg == null ? "Arg is null" : "Arg is not null";
         }
 
+        private void InstanceVoidMethodWhichIsNotOkayWhenArgIsNull(int arg)
+        {
+        }
+
         private static void StaticVoidMethodWithArgs(ITrackable trackable)
         {
             trackable.Touch();
@@ -47,6 +51,15 @@ namespace Mirror.Tests.TestClasses
         private static string StaticStringMethodWithoutArgs()
         {
             return "successStaticStringMethodWithoutArgs";
+        }
+
+        private static string StaticStringMethodWhichIsOkayWhenArgIsNull(object arg)
+        {
+            return arg == null ? "Arg is null" : "Arg is not null";
+        }
+
+        private static void StaticVoidMethodWhichIsNotOkayWhenArgIsNull(int arg)
+        {
         }
     }
 

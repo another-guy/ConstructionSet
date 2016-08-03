@@ -7,7 +7,6 @@ namespace Mirror.Internals
 {
     public static class MethodInvoke
     {
-        // TODO Delete this!
         public struct Result
         {
             public bool HasResult;

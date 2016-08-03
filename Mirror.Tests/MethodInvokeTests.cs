@@ -1,4 +1,5 @@
-﻿using Mirror.Internals;
+﻿using System;
+using Mirror.Internals;
 using Mirror.Tests.TestClasses;
 using NSubstitute;
 using Xunit;
@@ -115,10 +116,6 @@ namespace Mirror.Tests
             Assert.Equal("successStaticStringMethodWithoutArgs", result.Value);
         }
 
-
-        // TODO Add same test that will have null passed to a value type parameter (FAIL)
-        // TODO Add same test (with null) for static method
-        // TODO Add test that does not need parameters at all
         [Fact]
         public void CanCallMethodWithNullArgs()
         {
@@ -130,6 +127,50 @@ namespace Mirror.Tests
 
             // Assert
             Assert.Equal(result, "Arg is null");
+        }
+
+        [Fact]
+        public void CallingMethodWithNullForValueTypeParameterThrowsException()
+        {
+            // Arrange
+            // Act
+            var caught = Assert.Throws<InvalidOperationException>(() =>
+                MethodInvoke.InstanceMethod(
+                    target,
+                    "InstanceVoidMethodWhichIsNotOkayWhenArgIsNull",
+                    new object[] { null }));
+
+            // Assert
+            Assert.Equal("Didn't find a method mathing passed parameters.", caught.Message);
+        }
+
+        [Fact]
+        public void CanCallStaticMethodWithNullArgs()
+        {
+            // Arrange
+            // Act
+            var result = (string)MethodInvoke
+                .StaticMethod<ClassWithPrivateMethods>(
+                    "StaticStringMethodWhichIsOkayWhenArgIsNull",
+                    new object[] { null })
+                .Value;
+
+            // Assert
+            Assert.Equal(result, "Arg is null");
+        }
+
+        [Fact]
+        public void CallingStaticMethodWithNullForValueTypeParameterThrowsException()
+        {
+            // Arrange
+            // Act
+            var caught = Assert.Throws<InvalidOperationException>(() =>
+                MethodInvoke.StaticMethod<ClassWithPrivateMethods>(
+                    "StaticVoidMethodWhichIsNotOkayWhenArgIsNull",
+                    new object[] { null }));
+
+            // Assert
+            Assert.Equal("Didn't find a method mathing passed parameters.", caught.Message);
         }
     }
 }
