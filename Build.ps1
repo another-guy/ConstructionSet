@@ -25,7 +25,7 @@ if(Test-Path .\artifacts) { Remove-Item .\artifacts -Force -Recurse }
 exec { & dotnet restore }
 
 $revision = @{ $true = $env:APPVEYOR_BUILD_NUMBER; $false = 1 }[$env:APPVEYOR_BUILD_NUMBER -ne $NULL];
-$revision = "b{0:D3}" -f [convert]::ToInt32($revision, 10)
+$revision = "b{0:D5}" -f [convert]::ToInt32($revision, 10)
 
 exec { & dotnet test .\Mirror.Tests -c Release }
 
