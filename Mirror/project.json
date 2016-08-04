@@ -10,9 +10,9 @@
     "repository": {
       "type": "git",
       "url": "https://github.com/another-guy/Mirror"
-    }
+    },
+    "projectUrl": "https://github.com/another-guy/Mirror"
   },
-  "projectUrl": "https://github.com/another-guy/Mirror",
   "language": "en-us",
 
   "dependencies": {
