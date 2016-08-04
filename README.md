@@ -4,8 +4,15 @@ Simplifies C# reflection code.
 
 ## Status
 
+NuGet (stable)
 [![NuGet](https://img.shields.io/nuget/v/Mirror.svg)](https://www.nuget.org/packages/Mirror/)
+[![NuGet](https://img.shields.io/nuget/vpre/Mirror.svg)](https://www.nuget.org/packages/Mirror/)
+
+MyGet (latest)
 [![MyGet CI](https://img.shields.io/myget/another-guy/v/Mirror.svg)](https://www.myget.org/feed/another-guy/package/nuget/Mirror)
+[![MyGet CI](https://img.shields.io/myget/another-guy/vpre/Mirror.svg)](https://www.myget.org/feed/another-guy/package/nuget/Mirror)
+
+Build
 [![Build status](https://ci.appveyor.com/api/projects/status/as29kthpwxftaiy6?svg=true)](https://ci.appveyor.com/project/another-guy/mirror)
 
 ## Code Example
