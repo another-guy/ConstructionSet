@@ -24,10 +24,18 @@ if(Test-Path .\artifacts) { Remove-Item .\artifacts -Force -Recurse }
 
 exec { & dotnet restore }
 
-$revision = @{ $true = $env:APPVEYOR_BUILD_NUMBER; $false = 1 }[$env:APPVEYOR_BUILD_NUMBER -ne $NULL];
-$revision = "b{0:D5}" -f [convert]::ToInt32($revision, 10)
-
 exec { & dotnet test .\Mirror.Tests -c Release }
 
-exec { & dotnet pack .\Mirror -c Release -o .\artifacts --version-suffix=$revision }
+$tagOfHead = iex 'git tag -l --contains HEAD'
+$prefixExpected = $tagOfHead + "-"
+$projectJson = Get-Content '.\Mirror\project.json' | Out-String | ConvertFrom-Json | select -ExpandProperty version #| Select-Object -Property version
 
+if ([string]::IsNullOrEmpty($tagOfHead)) {
+  $revision = @{ $true = $env:APPVEYOR_BUILD_NUMBER; $false = 1 }[$env:APPVEYOR_BUILD_NUMBER -ne $NULL];
+  $revision = "b{0:D5}" -f [convert]::ToInt32($revision, 10)
+  exec { & dotnet pack .\Mirror -c Release -o .\artifacts --version-suffix=$revision }
+} elseif ($projectJson.StartsWith($prefixExpected,"CurrentCultureIgnoreCase")) {
+  exec { & dotnet pack .\Mirror -c Release -o .\artifacts }
+} else {
+  throw ("Target commit is marked with tag " + $tagOfHead + " which is not compatible with project version retrieved from metadata: " + $projectJson)
+}
