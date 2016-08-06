@@ -20,12 +20,16 @@ function Exec
     }
 }
 
+echo "============================ REMOVE OLD ARTIFACTS ==========================="
 if(Test-Path .\artifacts) { Remove-Item .\artifacts -Force -Recurse }
 
+echo "============================ RESTORE DEPENDENCIES ==========================="
 exec { & dotnet restore }
 
+echo "========================== BUILD TO RUN UNIT TESTS =========================="
 exec { & dotnet test .\Mirror.Tests -c Release }
 
+echo "============================= BUILD NUGET PACKAGE ==========================="
 $tagOfHead = iex 'git tag -l --contains HEAD'
 $prefixExpected = $tagOfHead + "-"
 $projectJsonVersion = Get-Content '.\Mirror\project.json' | Out-String | ConvertFrom-Json | select -ExpandProperty version
@@ -39,3 +43,5 @@ if ([string]::IsNullOrEmpty($tagOfHead)) {
 } else {
   throw ("Target commit is marked with tag " + $tagOfHead + " which is not compatible with project version retrieved from metadata: " + $projectJsonVersion)
 }
+
+echo "=============================== BUILD COMPLETE! ============================="
