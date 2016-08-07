@@ -33,5 +33,9 @@
         "portable-net45+win8"
       ]
     }
+  },
+
+  "buildOptions": {
+    "warningsAsErrors": true
   }
 }
