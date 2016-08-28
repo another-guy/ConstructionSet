@@ -1,5 +1,7 @@
 ## Synopsis
 
+[![Mirror](https://github.com/another-guy/Mirror/raw/master/Mirror.png)](https://github.com/another-guy/Mirror)
+
 Simplifies C# reflection code.
 
 ## Status
