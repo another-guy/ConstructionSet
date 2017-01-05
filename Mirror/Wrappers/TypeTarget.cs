@@ -9,12 +9,12 @@ namespace Mirror.Wrappers
             return ConstructorInvoke<T>.UsingPrivateConstructor(parameters);
         }
 
-        public StaticSetter<T> ToSet(string memberName)
+        public StaticSetter<T> Set(string memberName)
         {
             return new StaticSetter<T>(memberName);
         }
 
-        public R ToGet<R>(string memberName)
+        public R Get<R>(string memberName)
         {
             return (R)FieldPropertyRead.StaticValue<T>(memberName);
         }

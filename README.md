@@ -59,8 +59,8 @@ class MyClass {
 MyClass target = new MyClass();
 
 // Field/Property access code looks similar
-Use.Target(target).ToSet("name").Value("Bob")
-Use.Target(target).ToSet("Name").Value("Chris")
+Use.Target(target).Set("name").Value("Bob")
+Use.Target(target).Set("Name").Value("Chris")
 string nameFromField = Use.Target(target).ToGet<string>("name");
 string nameFromProperty = Use.Target(target).ToGet<string>("Name");
 
@@ -79,10 +79,10 @@ static class MyClass {
   private static string GetName() { return name; }
 }
 
-Use.Target<MyClass>().ToSet("name").Value("Bob")
+Use.Target<MyClass>().Set("name").Value("Bob")
 string nameFromStaticField = Use.Target<MyClass>().ToGet<string>("name");
 
-Use.Target<MyClass>().ToSet("Name").Value("Chris")
+Use.Target<MyClass>().Set("Name").Value("Chris")
 string nameFromStaticProperty = Use.Target<MyClass>().ToGet<string>("Name");
 
 Use.Target<MyClass>().ToCall("SetName", "David");

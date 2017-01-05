@@ -1,11 +1,11 @@
 {
-  "version": "1.0.3-*",
+  "version": "2.0.0-*",
   "testRunner": "xunit",
   "dependencies": {
     "NETStandard.Library": "1.6.0",
     "xunit": "2.1.0",
     "dotnet-test-xunit": "1.0.0-rc2-build10025",
-    "Mirror": "1.0.3-*",
+    "Mirror": "2.0.0-*",
     "NSubstitute": "2.0.0-alpha003",
     "System.Diagnostics.TraceSource": "4.0.0-rc2-24027"
   },
