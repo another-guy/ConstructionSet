@@ -11,7 +11,7 @@ namespace Mirror.Wrappers
             @object = targetObject;
         }
 
-        public InstanceSetter<T> ToSet(string memberName)
+        public InstanceSetter<T> Set(string memberName)
         {
             return new InstanceSetter<T>(@object, memberName);
         }

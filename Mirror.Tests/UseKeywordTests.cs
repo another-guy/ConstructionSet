@@ -27,7 +27,7 @@ namespace Mirror.Tests
 
             // Act
             Use.Target(target)
-                .ToSet(ClassWithPrivateFields.InstanceFieldName)
+                .Set(ClassWithPrivateFields.InstanceFieldName)
                 .Value(setValue);
 
             var readValue = Use.Target(target)
@@ -45,11 +45,11 @@ namespace Mirror.Tests
             // Arrange
             // Act
             Use.Target<ClassWithPrivateFields>()
-                .ToSet(ClassWithPrivateFields.StaticFieldName)
+                .Set(ClassWithPrivateFields.StaticFieldName)
                 .Value(setValue);
 
             var readValue = Use.Target<ClassWithPrivateFields>()
-                .ToGet<int>(ClassWithPrivateFields.StaticFieldName);
+                .Get<int>(ClassWithPrivateFields.StaticFieldName);
 
             // Assert
             Assert.Equal(setValue, readValue);
@@ -65,7 +65,7 @@ namespace Mirror.Tests
 
             // Act
             Use.Target(target)
-                .ToSet(ClassWithPrivateFields.InstancePropertyName)
+                .Set(ClassWithPrivateFields.InstancePropertyName)
                 .Value(setValue);
 
             var readValue = Use.Target(target)
@@ -83,11 +83,11 @@ namespace Mirror.Tests
             // Arrange
             // Act
             Use.Target<ClassWithPrivateFields>()
-                .ToSet(ClassWithPrivateFields.StaticPropertyName)
+                .Set(ClassWithPrivateFields.StaticPropertyName)
                 .Value(setValue);
 
             var readValue = Use.Target<ClassWithPrivateFields>()
-                .ToGet<int>(ClassWithPrivateFields.StaticPropertyName);
+                .Get<int>(ClassWithPrivateFields.StaticPropertyName);
 
             // Assert
             Assert.Equal(setValue, readValue);
