@@ -89,6 +89,38 @@ Use.Target<MyClass>().ToCall("SetName", "David");
 string nameFromStaticMethod = Use.Target<MyClass>().ToCall<string>("GetName");
 ```
 
+### Attribute discovery
+
+Attribute retrieval can be string-based (full type name argument required).
+
+```
+IEnumerable<Attribute> obsoleteClassAttribute =
+	typeof(TargetClass)
+		.GetAttributes("System.Obsolete")
+		.SingleOrDefault();
+
+IEnumerable<Attribute> obsoleteMethodAttribute =
+	typeof(TargetClass)
+		.GetMethod("TargetMethod")
+		.GetAttributes("System.Obsolete")
+		.SingleOrDefault();
+```
+
+Alternatively, the generic method can be used if specific attribute type is known at compile time.
+
+```
+IEnumerable<Obsolete> obsoleteClassAttribute =
+	typeof(TargetClass)
+		.GetAttributes<Obsolete>()
+		.SingleOrDefault();
+
+IEnumerable<Obsolete> obsoleteMethodAttribute =
+	typeof(TargetClass)
+		.GetMethod("TargetMethod")
+		.GetAttributes<Obsolete>()
+		.SingleOrDefault();
+```
+
 ## Motivation
 
 Syntax sugar is syntax sugar: it's not a necessary thing per se but it can improve code quality.

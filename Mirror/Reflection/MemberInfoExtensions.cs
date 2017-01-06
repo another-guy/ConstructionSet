@@ -8,13 +8,14 @@ namespace System
     public static class MemberInfoExtensions
     {
         [Pure]
-        public static IEnumerable<Attribute> GetAttributes<T>(
+        public static IEnumerable<T> GetAttributes<T>(
             this MemberInfo memberInfo,
             bool inherit = true)
             where T : Attribute
         {
             return memberInfo
-                .GetAttributes(typeof(T).FullName, inherit);
+                .GetAttributes(typeof(T).FullName, inherit)
+                .Cast<T>();
         }
 
         [Pure]
@@ -26,6 +27,18 @@ namespace System
             return type
                 .GetTypeInfo()
                 .GetAttributes(attributeType, inherit);
+        }
+
+        [Pure]
+        public static IEnumerable<T> GetAttributes<T>(
+            this Type type,
+            bool inherit = true)
+            where T : Attribute
+        {
+            return type
+                .GetTypeInfo()
+                .GetAttributes(typeof(T).FullName, inherit)
+                .Cast<T>();
         }
 
         [Pure]
