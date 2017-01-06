@@ -6,6 +6,7 @@
   "copyright": "MIT",
   "packOptions": {
     "licenseUrl": "https://raw.githubusercontent.com/another-guy/Mirror/master/LICENSE.txt",
+    "iconUrl": "https://github.com/another-guy/Mirror/raw/master/Mirror.png",
     "tags": [ "Reflection", "Syntax", "Sugar" ],
     "repository": {
       "type": "git",
