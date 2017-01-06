@@ -96,6 +96,96 @@ namespace Mirror.Tests
             // Assert
             Assert.Equal(2, attributes.Count());
         }
+
+        [Fact]
+        public void CanExtractClassAttributeByTypeWhenPresent()
+        {
+            // Arrange
+#pragma warning disable 618
+            var target = typeof(TargetClassWithAttributes);
+#pragma warning restore 618
+
+            // Act
+            var attributes = target.GetAttributes<DemoAttribute>();
+
+            // Assert
+            Assert.NotNull(attributes.Single());
+        }
+
+        [Fact]
+        public void CanExtractClassAttributeByTypeWhenNotPresent()
+        {
+            // Arrange
+#pragma warning disable 618
+            var target = typeof(TargetClassWithoutAttributes);
+#pragma warning restore 618
+
+            // Act
+            var attributes = target.GetAttributes<DemoAttribute>();
+
+            // Assert
+            Assert.Equal(0, attributes.Count());
+        }
+
+        [Fact]
+        public void CanExtractMultpileClassAttributesByTypeWhenPresent()
+        {
+            // Arrange
+#pragma warning disable 618
+            var target = typeof(DemoTargetClass);
+#pragma warning restore 618
+
+            // Act
+            var attributes = target.GetAttributes<DemoAttribute>();
+
+            // Assert
+            Assert.Equal(3, attributes.Count());
+        }
+
+        [Fact]
+        public void CanExtractMethodAttributeByTypeWhenPresent()
+        {
+            // Arrange
+#pragma warning disable 618
+            var target = typeof(TargetClassWithAttributes).GetMethod("TargetMethod");
+#pragma warning restore 618
+
+            // Act
+            var attributes = target.GetAttributes<DemoAttribute>();
+
+            // Assert
+            Assert.NotNull(attributes.Single());
+        }
+
+        [Fact]
+        public void CanExtractMethodAttributeByTypeWhenNotPresent()
+        {
+            // Arrange
+#pragma warning disable 618
+            var target = typeof(TargetClassWithoutAttributes).GetMethod("TargetMethod");
+#pragma warning restore 618
+
+            // Act
+            var attributes = target.GetAttributes<DemoAttribute>();
+
+            // Assert
+            Assert.Equal(0, attributes.Count());
+        }
+
+        [Fact]
+        public void CanExtractMultpileMethodAttributesByTypeWhenPresent()
+        {
+            // Arrange
+#pragma warning disable 618
+            var target = typeof(DemoTargetClass).GetMethod("TargetMethod");
+#pragma warning restore 618
+
+            // Act
+            var attributes = target.GetAttributes<DemoAttribute>();
+
+            // Assert
+            Assert.Equal(2, attributes.Count());
+        }
     }
 
     [Demo]
