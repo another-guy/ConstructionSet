@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mirror.Tests.TestClasses
+﻿namespace Mirror.Tests.TestClasses
 {
     public class ClassWithPrivateMethods
     {
