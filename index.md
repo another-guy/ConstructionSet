@@ -5,12 +5,24 @@
 Simplifies C# reflection code.
 
 ## Status
-| | |
-| --- | --- |
-| NuGet (stable) | [![NuGet](https://img.shields.io/nuget/v/Mirror.svg)](https://www.nuget.org/packages/Mirror/) [![NuGet](https://img.shields.io/nuget/vpre/Mirror.svg)](https://www.nuget.org/packages/Mirror/) |
-| MyGet (latest) | [![MyGet CI](https://img.shields.io/myget/another-guy/v/Mirror.svg)](https://www.myget.org/feed/another-guy/package/nuget/Mirror) [![MyGet CI](https://img.shields.io/myget/another-guy/vpre/Mirror.svg)](https://www.myget.org/feed/another-guy/package/nuget/Mirror) |
-| Build| [![Build status](https://ci.appveyor.com/api/projects/status/as29kthpwxftaiy6?svg=true)](https://ci.appveyor.com/project/another-guy/mirror) |
-| Issues and pull requests | [![GitHub issues](https://img.shields.io/github/issues/another-guy/mirror.svg?maxAge=2592000)](https://github.com/another-guy/Mirror/issues) |
+
+NuGet (stable)
+
+[![NuGet](https://img.shields.io/nuget/v/Mirror.svg)](https://www.nuget.org/packages/Mirror/)
+[![NuGet](https://img.shields.io/nuget/vpre/Mirror.svg)](https://www.nuget.org/packages/Mirror/)
+
+MyGet (latest)
+
+[![MyGet CI](https://img.shields.io/myget/another-guy/v/Mirror.svg)](https://www.myget.org/feed/another-guy/package/nuget/Mirror)
+[![MyGet CI](https://img.shields.io/myget/another-guy/vpre/Mirror.svg)](https://www.myget.org/feed/another-guy/package/nuget/Mirror)
+
+Build
+
+[![Build status](https://ci.appveyor.com/api/projects/status/as29kthpwxftaiy6?svg=true)](https://ci.appveyor.com/project/another-guy/mirror)
+
+Issues and pull requests
+
+[![GitHub issues](https://img.shields.io/github/issues/another-guy/mirror.svg?maxAge=2592000)](https://github.com/another-guy/Mirror/issues)
 
 ## Code Example
 
@@ -59,8 +71,8 @@ class MyClass {
 MyClass target = new MyClass();
 
 // Field/Property access code looks similar
-Use.Target(target).ToSet("name").Value("Bob")
-Use.Target(target).ToSet("Name").Value("Chris")
+Use.Target(target).Set("name").Value("Bob")
+Use.Target(target).Set("Name").Value("Chris")
 string nameFromField = Use.Target(target).ToGet<string>("name");
 string nameFromProperty = Use.Target(target).ToGet<string>("Name");
 
@@ -79,14 +91,46 @@ static class MyClass {
   private static string GetName() { return name; }
 }
 
-Use.Target<MyClass>().ToSet("name").Value("Bob")
+Use.Target<MyClass>().Set("name").Value("Bob")
 string nameFromStaticField = Use.Target<MyClass>().ToGet<string>("name");
 
-Use.Target<MyClass>().ToSet("Name").Value("Chris")
+Use.Target<MyClass>().Set("Name").Value("Chris")
 string nameFromStaticProperty = Use.Target<MyClass>().ToGet<string>("Name");
 
 Use.Target<MyClass>().ToCall("SetName", "David");
 string nameFromStaticMethod = Use.Target<MyClass>().ToCall<string>("GetName");
+```
+
+### Attribute discovery
+
+Attribute retrieval can be string-based (full type name argument required).
+
+```
+IEnumerable<Attribute> obsoleteClassAttribute =
+	typeof(TargetClass)
+		.GetAttributes("System.Obsolete")
+		.SingleOrDefault();
+
+IEnumerable<Attribute> obsoleteMethodAttribute =
+	typeof(TargetClass)
+		.GetMethod("TargetMethod")
+		.GetAttributes("System.Obsolete")
+		.SingleOrDefault();
+```
+
+Alternatively, the generic method can be used if specific attribute type is known at compile time.
+
+```
+IEnumerable<Obsolete> obsoleteClassAttribute =
+	typeof(TargetClass)
+		.GetAttributes<Obsolete>()
+		.SingleOrDefault();
+
+IEnumerable<Obsolete> obsoleteMethodAttribute =
+	typeof(TargetClass)
+		.GetMethod("TargetMethod")
+		.GetAttributes<Obsolete>()
+		.SingleOrDefault();
 ```
 
 ## Motivation
