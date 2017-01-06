@@ -16,7 +16,8 @@
   "language": "en-us",
 
   "dependencies": {
-    "NETStandard.Library": "1.6.0"
+    "NETStandard.Library": "1.6.0",
+    "System.Diagnostics.Contracts": "4.3.0"
   },
 
   "frameworks": {
